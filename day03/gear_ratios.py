@@ -4,14 +4,14 @@ def generate_table(lines: str):
     return [list(line) for line in lines]
 
 
-def isSymbol(chr: str):
+def issymbol(chr: str):
     if chr.isdigit() or chr == ".":
         return False
 
     return True
 
 
-def checkAdjacent(pos: (int, int), table: list[list[str]]):
+def check_adjacent(pos: (int, int), table: list[list[str]]):
     (row_idx, col_idx) = pos
     digit_cells = []
     for r_idx in range(row_idx - 1, row_idx + 2):
@@ -32,8 +32,8 @@ def solve1(lines):
     digits = []
     for row_idx, row in enumerate(table):
         for col_idx, cell in enumerate(row):
-            if isSymbol(cell):
-                adjacents.update(checkAdjacent((row_idx, col_idx), table))
+            if issymbol(cell):
+                adjacents.update(check_adjacent((row_idx, col_idx), table))
             if cell.isdigit():
                 digits.append((row_idx, col_idx))
             else:
