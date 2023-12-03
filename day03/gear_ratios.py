@@ -51,8 +51,83 @@ def solve1(lines):
     return sum(part_nums)
 
 
+def isgear(cell: str):
+    return cell == "*"
+
+
+def get_adjacent_digits(pos, row: list[str]):
+    digits = [pos]
+    (row_idx, col_idx) = pos
+
+    cursor = col_idx - 1
+    while True:
+        try:
+            if row[cursor].isdecimal():
+                digits.insert(0, (row_idx, cursor))
+                cursor -= 1
+            else:
+                break
+        except IndexError:
+            break
+
+    cursor = col_idx + 1
+    while True:
+        try:
+            if row[cursor].isdecimal():
+                digits.append((row_idx, cursor))
+                cursor += 1
+            else:
+                break
+        except IndexError:
+            break
+
+    return digits
+
+
+def calc_digits(pos, table: list[list[str]]):
+    (row_idx, col_idx) = pos
+    digits_list = []
+    for r_idx in range(row_idx - 1, row_idx + 2):
+        for c_idx in range(col_idx - 1, col_idx + 2):
+            if r_idx == row_idx and c_idx == col_idx:
+                continue
+            if table[r_idx][c_idx].isdigit():
+                adjacent_digits = get_adjacent_digits((r_idx, c_idx), table[r_idx])
+                if not adjacent_digits in digits_list:
+                    digits_list.append(adjacent_digits)
+    if len(digits_list) != 2:
+        return []
+
+    return digits_list
+
+
+def calc_ratio(digits_list: list[tuple[int, int]], table: list[list[str]]):
+    nums = []
+    for digits in digits_list:
+        digits = [table[x][y] for (x, y) in digits]
+        nums.append(int("".join(digits)))
+
+    return nums[0] * nums[1]
+
+
+def solve2(lines: str):
+    table = generate_table(lines)
+    result = 0
+    for row_idx, row in enumerate(table):
+        for col_idx, cell in enumerate(row):
+            if isgear(cell):
+                digits_list = calc_digits((row_idx, col_idx), table)
+                if len(digits_list) == 2:
+                    result += calc_ratio(digits_list, table)
+
+    return result
+
+
 def test(lines):
     result = solve1(lines)
+    print(f"result: {result}")
+
+    result = solve2(lines)
     print(f"result: {result}")
 
 
