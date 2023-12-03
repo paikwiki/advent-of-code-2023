@@ -12,7 +12,7 @@ def parse(line: str):
 
     return (int(game_title.replace("Game ", "")), cubes)
 
-def isPossible(hands):
+def is_possible(hands):
     MAX = {
         "red": 12,
         "green": 13,
@@ -34,7 +34,7 @@ def solve1(lines: str):
     sum = 0
     for line in lines:
         [game_id, hands] = parse(line)
-        if isPossible(hands):
+        if is_possible(hands):
             sum += game_id
 
     return sum
