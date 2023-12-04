@@ -21,11 +21,11 @@ def solve2(lines: str):
             "nine",
         ]
         first = last = ""
-        for i in range(len(line)):
+        for i, cell in enumerate(line):
             if first != "":
                 break
-            if line[i].isdecimal():
-                first = line[i]
+            if cell.isdecimal():
+                first = cell
             else:
                 for spelled in SPELLED_DIGITS:
                     target = line[i : len(spelled) + i]
@@ -33,7 +33,7 @@ def solve2(lines: str):
                         first = str(SPELLED_DIGITS.index(spelled) + 1)
                         break
 
-        for i in range(len(line)):
+        for i, _ in enumerate(line, 0):
             if last != "":
                 break
             reverse_i = len(line) - 1 - i
