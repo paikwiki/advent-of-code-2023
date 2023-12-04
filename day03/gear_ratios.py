@@ -93,7 +93,7 @@ def calc_digits(pos, table: list[list[str]]):
                 continue
             if table[r_idx][c_idx].isdigit():
                 adjacent_digits = get_adjacent_digits((r_idx, c_idx), table[r_idx])
-                if not adjacent_digits in digits_list:
+                if adjacent_digits not in digits_list:
                     digits_list.append(adjacent_digits)
 
     return digits_list
