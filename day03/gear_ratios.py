@@ -95,13 +95,14 @@ def calc_digits(pos, table: list[list[str]]):
                 adjacent_digits = get_adjacent_digits((r_idx, c_idx), table[r_idx])
                 if not adjacent_digits in digits_list:
                     digits_list.append(adjacent_digits)
-    if len(digits_list) != 2:
-        return []
 
     return digits_list
 
 
 def calc_ratio(digits_list: list[tuple[int, int]], table: list[list[str]]):
+    if len(digits_list) != 2:
+        return 0
+
     nums = []
     for digits in digits_list:
         digits = [table[x][y] for (x, y) in digits]
@@ -117,8 +118,7 @@ def solve2(lines: str):
         for col_idx, cell in enumerate(row):
             if isgear(cell):
                 digits_list = calc_digits((row_idx, col_idx), table)
-                if len(digits_list) == 2:
-                    result += calc_ratio(digits_list, table)
+                result += calc_ratio(digits_list, table)
 
     return result
 
