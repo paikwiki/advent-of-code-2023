@@ -26,8 +26,42 @@ def solve1(lines: str):
     return total
 
 
+def solve2(lines: str):
+    cards = []
+    matchcounts = {}
+    for idx, (winnings, holds) in enumerate(
+        [parse_card(line) for line in lines.strip().splitlines()]
+    ):
+        matched = 0
+        for hold in holds:
+            try:
+                winnings.index(hold)
+            except:
+                continue
+            matched += 1
+        cards.append((idx, matched))
+        matchcounts[idx] = matched
+    max_card_idx = len(cards) - 1
+
+    total = 0
+    while len(cards):
+        [card, *cards] = cards
+        total += 1
+        card_idx, count = card
+
+        for i in range(count):
+            num = card_idx + i + 1
+            if num <= max_card_idx:
+                cards.append((num, matchcounts[num]))
+
+    return total
+
+
 def test(lines):
     result = solve1(lines)
+    print(f"result: {result}")
+
+    result = solve2(lines)
     print(f"result: {result}")
 
 
